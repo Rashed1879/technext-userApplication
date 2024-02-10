@@ -8,7 +8,6 @@ const UserCard = ({ user }) => {
 	return (
 		<>
 			<div
-				key={user.id}
 				className="flex flex-col justify-center p-6 shadow-lg shadow-current hover:shadow-2xl rounded-xl hover:-translate-y-2 bg-gradient-to-b 
               from-[#000000] to-[#040218] text-gray-300 transition-all duration-300 cursor-pointer"
 			>

@@ -41,9 +41,50 @@ function App() {
 			user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
+	// add user
+
+	const handleAddUser = (e) => {
+		e.preventDefault();
+		const form = e.target;
+		const firstName = form.firstName.value;
+		const lastName = form.lastName.value;
+		const email = form.email.value;
+		const address = form.address.value;
+		const city = form.city.value;
+		const state = form.state.value;
+		const companyName = form.companyName.value;
+		const image = form.image.value;
+
+		const newUser = {
+			firstName,
+			lastName,
+			email,
+			address: {
+				address,
+				city,
+				state,
+			},
+			company: {
+				name: companyName,
+			},
+			image,
+		};
+
+		fetch('https://dummyjson.com/users/add', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(newUser),
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				setUserData([...filteredUsers, data]);
+				alert('Successfully added user!');
+			});
+	};
+
 	return (
 		<>
-			<div className="mt-5 container mx-auto px-5">
+			<div className="my-5 container mx-auto px-5">
 				<HeadLine title="User Application" />
 				{/* for search bar and filter options */}
 				<div className="my-10 flex flex-col md:flex-row justify-between items-center space-y-5 md:space-y-0">
@@ -82,6 +123,147 @@ function App() {
 					{filteredUsers.map((user) => (
 						<UserCard key={user.id} user={user} />
 					))}
+				</div>
+
+				{/* form of add user  */}
+				<div className="p-8 rounded border border-gray-700 mt-10">
+					<h1 className="font-medium text-3xl">Add User</h1>
+					<form onSubmit={handleAddUser}>
+						<div className="mt-8 grid lg:grid-cols-2 gap-4">
+							<div>
+								<label
+									htmlFor="firstName"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									First Name
+								</label>
+								<input
+									type="text"
+									name="firstName"
+									id="firstName"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter your first name"
+								/>
+							</div>
+							<div>
+								<label
+									htmlFor="lastName"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									Last Name
+								</label>
+								<input
+									type="text"
+									name="lastName"
+									id="lastName"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter your last name"
+								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor="email"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									Email Address
+								</label>
+								<input
+									type="text"
+									name="email"
+									id="email"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="yourmail@provider.com"
+								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor="address"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									Street
+								</label>
+								<input
+									type="text"
+									name="address"
+									id="address"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter Street address"
+								/>
+							</div>
+							<div>
+								<label
+									htmlFor="city"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									City
+								</label>
+								<input
+									type="text"
+									name="city"
+									id="city"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter City Name"
+								/>
+							</div>
+							<div>
+								<label
+									htmlFor="state"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									State
+								</label>
+								<input
+									type="text"
+									name="state"
+									id="state"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter State"
+								/>
+							</div>
+
+							<div>
+								<label
+									htmlFor="companyName"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									Company Name
+								</label>
+								<input
+									type="text"
+									name="companyName"
+									id="companyName"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter your Company Name"
+								/>
+							</div>
+							<div>
+								<label
+									htmlFor="image"
+									className="text-sm text-gray-700 block mb-1 font-medium"
+								>
+									Image URL
+								</label>
+								<input
+									type="url"
+									name="image"
+									id="image"
+									className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+									placeholder="Enter your Image URL"
+								/>
+							</div>
+						</div>
+
+						<div className="mt-8">
+							<button
+								type="submit"
+								className="py-2 px-4 bg-gray-600 text-white rounded hover:bg-gray-700 active:bg-gray-700 disabled:opacity-50"
+							>
+								Add User
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</>
